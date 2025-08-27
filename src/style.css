@@ -71,23 +71,23 @@
 
 /* ใช้ flex เพื่อให้กลางจริง */
 .link-card{
-  display: flex;
+  display: flex !important;        /* แทน grid */
   align-items: center;
-  gap: 12px;
-  padding: clamp(12px, 1.6vw, 16px) clamp(14px, 2vw, 18px);
-  border-radius: 10px;
+  padding: 14px 16px;
+  border-radius: 18px;
   background: var(--card);
   color: var(--ink);
   box-shadow: 0 1px 0 rgba(0,0,0,.03), 0 2px 8px rgba(0,0,0,.05);
   transition: transform .18s ease, box-shadow .18s ease, background-color .18s ease;
   cursor: pointer;
   outline: none;
+  width: 90vw; max-width: 400px;  
+  /* ✅ กันไอคอน/พื้นหลังล้ำขอบบน iOS */
+  overflow: hidden;
+  -webkit-mask-image: -webkit-radial-gradient(#fff, #000); /* iOS rounding bug fix */
 }
-.link-card:hover{ transform: translateY(-2px); background: #fafafa; box-shadow: 0 10px 26px rgba(0,0,0,.08); }
-.link-card:active{ transform: translateY(0); box-shadow: 0 4px 12px rgba(0,0,0,.08); }
-.link-card:focus-visible{ box-shadow: 0 0 0 3px var(--ring-outline), 0 10px 26px rgba(0,0,0,.08); }
 
-/* ซ้าย/ขวา เท่ากัน */
+/* ✅ ซ้าย/ขวากว้างเท่ากัน */
 .link-card > .chip,
 .link-card > .icon-wrap{
   flex: 0 0 56px;
@@ -96,17 +96,18 @@
   justify-content: center;
 }
 
-/* กลางกินพื้นที่ที่เหลือ + จัดกึ่งกลางจริง */
+/* ✅ กลางกินพื้นที่ที่เหลือและอยู่กลางเป๊ะ */
 .link-card > .link-title{
   flex: 1 1 auto;
   text-align: center;
   display: flex;
   align-items: center;
   justify-content: center;
+  min-width: 0;     /* กัน overflow ข้อความ */
   margin: 0;
 }
 
-/* Part elements */
+/* ขนาดภายใน */
 .chip{
   width: 40px; height: 40px; border-radius: 14px;
   display: grid; place-items: center;
@@ -118,20 +119,14 @@
   background: #f2f2f2; opacity: .9; font-size: 20px;
 }
 
-/* Disabled */
-.is-disabled{ cursor: not-allowed; opacity: .6; transform: none !important; }
-.is-disabled:hover{ background: var(--card); box-shadow: 0 1px 0 rgba(0,0,0,.03), 0 2px 8px rgba(0,0,0,.05); }
+/* ✅ ฟอลแบ็กกรณีเบราว์เซอร์ไม่รองรับ flex-gap */
+@supports not (gap: 12px){
+  .link-card > .link-title{ margin: 0 12px; }
+}
 
-/* ============ Responsive ============ */
+/* มือถือ */
 @media (max-width: 576px){
   .link-card > .chip,
   .link-card > .icon-wrap{ flex-basis: 48px; }
   .chip, .icon-wrap{ width: 36px; height: 36px; border-radius: 12px; }
-  .content{ padding-top: 72px; }
-}
-@media (min-width: 1200px){
-  .link-list{ width: min(70vw, 680px); }
-}
-@media (prefers-reduced-motion: reduce){
-  .link-card{ transition: none; }
 }

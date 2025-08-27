@@ -52,7 +52,7 @@ export default function Directions() {
               }
             }}
           >
-            <span className="chip">{it.num}</span>
+            {/* <span className="chip">{it.num}</span> */}
             <div className="link-title">{it.title}</div>
             <span className="icon-wrap" aria-hidden="true">
               {it.icon}
