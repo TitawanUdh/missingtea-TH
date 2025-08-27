@@ -1,0 +1,137 @@
+/* ============ Theme ============ */
+:root{
+  --bg:#edeceb;
+  --card:#ffffff;
+  --ink:#3e2f2b;
+  --muted:#8b8582;
+  --brand:#8a5a52;     /* น้ำตาลอมแดงโทนชา */
+  --accent:#f4dede;    /* ชมพูอุ่นสำหรับชิป */
+  --ring-outline: rgba(86, 68, 64, .28);
+}
+
+/* ============ Page BG + Watermark ============ */
+.bg-main{
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  background: radial-gradient(1200px 700px at 50% -10%, #b3b1b1 0%, var(--bg) 55%, #7d746f 100%);
+}
+
+/* content layer */
+.content{
+  position: relative;
+  z-index: 2;
+  min-height: 100vh;
+  display: grid;
+  place-items: start center;
+  padding-top: clamp(48px, 12vh, 120px);
+  padding-bottom: clamp(32px, 8vh, 96px);
+}
+
+/* วางโลโก้จาง ๆ ไว้ล่าง-กึ่งกลาง */
+.bg-logo{
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  display: flex;
+  justify-content: center;
+}
+.bg-logo::after{
+  content: "";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: clamp(28px, 9vh, 140px);
+  width:  clamp(240px, 40vw, 760px);
+  height: clamp(240px, 40vw, 760px);
+  background-image: url("./components/assets/images/logo-square.png"); /* ❗ ใส่ไฟล์ไว้ที่ src/assets/ */
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  opacity: .06;
+  filter: saturate(.9) contrast(.95);
+}
+
+/* ============ Brand Header ============ */
+.brand-logo{ width: clamp(90px, 14vw, 140px); border-radius: 24px; }
+.brand-wordmark{ font-size: clamp(18px, 2.2vw, 22px); letter-spacing: .22em; color: var(--brand); font-weight: 600; }
+.brand-tagline{ margin-top: .25rem; margin-bottom: 1.5rem; color: var(--muted); }
+
+/* ============ Link List / Cards ============ */
+.link-list{
+  display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center !important;
+  gap: 14px;
+  margin-inline: auto;
+  /* width: min(92vw, 640px); */
+}
+
+/* ใช้ flex เพื่อให้กลางจริง */
+.link-card{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: clamp(12px, 1.6vw, 16px) clamp(14px, 2vw, 18px);
+  border-radius: 10px;
+  background: var(--card);
+  color: var(--ink);
+  box-shadow: 0 1px 0 rgba(0,0,0,.03), 0 2px 8px rgba(0,0,0,.05);
+  transition: transform .18s ease, box-shadow .18s ease, background-color .18s ease;
+  cursor: pointer;
+  outline: none;
+}
+.link-card:hover{ transform: translateY(-2px); background: #fafafa; box-shadow: 0 10px 26px rgba(0,0,0,.08); }
+.link-card:active{ transform: translateY(0); box-shadow: 0 4px 12px rgba(0,0,0,.08); }
+.link-card:focus-visible{ box-shadow: 0 0 0 3px var(--ring-outline), 0 10px 26px rgba(0,0,0,.08); }
+
+/* ซ้าย/ขวา เท่ากัน */
+.link-card > .chip,
+.link-card > .icon-wrap{
+  flex: 0 0 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* กลางกินพื้นที่ที่เหลือ + จัดกึ่งกลางจริง */
+.link-card > .link-title{
+  flex: 1 1 auto;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+}
+
+/* Part elements */
+.chip{
+  width: 40px; height: 40px; border-radius: 14px;
+  display: grid; place-items: center;
+  font-weight: 700; background: var(--accent); color: var(--brand);
+}
+.icon-wrap{
+  width: 40px; height: 40px; border-radius: 12px;
+  display: grid; place-items: center;
+  background: #f2f2f2; opacity: .9; font-size: 20px;
+}
+
+/* Disabled */
+.is-disabled{ cursor: not-allowed; opacity: .6; transform: none !important; }
+.is-disabled:hover{ background: var(--card); box-shadow: 0 1px 0 rgba(0,0,0,.03), 0 2px 8px rgba(0,0,0,.05); }
+
+/* ============ Responsive ============ */
+@media (max-width: 576px){
+  .link-card > .chip,
+  .link-card > .icon-wrap{ flex-basis: 48px; }
+  .chip, .icon-wrap{ width: 36px; height: 36px; border-radius: 12px; }
+  .content{ padding-top: 72px; }
+}
+@media (min-width: 1200px){
+  .link-list{ width: min(70vw, 680px); }
+}
+@media (prefers-reduced-motion: reduce){
+  .link-card{ transition: none; }
+}
